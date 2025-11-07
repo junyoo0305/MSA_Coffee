@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>☕ 커피 주문 테스트</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/order-test.js" defer></script>
+</head>
+<body>
+<h1>☕ 커피 전문점 MSA 테스트</h1>
+
+<!-- 메뉴 등록 -->
+<div class="section">
+    <h2>메뉴 등록</h2>
+    <input id="menuName" placeholder="메뉴 이름">
+    <input id="menuPrice" placeholder="가격" type="number">
+    <button onclick="addMenu()">등록</button>
+    <button onclick="getMenus()">전체 메뉴 보기</button>
+
+    <table id="menuTable">
+        <thead><tr><th>ID</th><th>이름</th><th>가격</th></tr></thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<!-- 재고 등록 -->
+<div class="section">
+    <h2>재고 등록</h2>
+    <select id="inventoryMenu"></select>
+    <input id="stockCount" type="number" placeholder="재고 수량">
+    <button onclick="addInventory()">재고 등록</button>
+    <button onclick="getInventories()">재고 보기</button>
+
+    <table id="inventoryTable">
+        <thead><tr><th>메뉴 ID</th><th>재고</th></tr></thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<!-- 주문하기 -->
+<div class="section">
+    <h2>주문하기</h2>
+    <select id="orderMenu"></select>
+    <input id="orderQuantity" type="number" placeholder="주문 수량">
+    <button onclick="placeOrder()">주문</button>
+
+    <table id="orderTable">
+        <thead><tr><th>ID</th><th>메뉴ID</th><th>수량</th><th>상태</th></tr></thead>
+        <tbody></tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 수정</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>게시글 수정</h2>
+        <form id="postForm">
+            <div class="mb-3">
+                <label for="title" class="form-label">제목</label>
+                <input type="text" class="form-control" id="title" required>
+            </div>
+            <div class="mb-3">
+                <label for="content" class="form-label">내용</label>
+                <textarea class="form-control" id="content" rows="10" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">수정</button>
+            <button type="button" class="btn btn-secondary" onclick="location.href='/view/' + postId">취소</button>
+        </form>
+    </div>
+
+    <script>
+        const postId = window.location.pathname.split('/')[2];
+
+        $(document).ready(function() {
+            loadPost();
+
+            $('#postForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                const post = {
+                    title: $('#title').val(),
+                    content: $('#content').val()
+                };
+
+                $.ajax({
+                    url: `/api/posts/${postId}`,
+                    method: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(post),
+                    success: function() {
+                        location.href = `/view/${postId}`;
+                    }
+                });
+            });
+        });
+
+        function loadPost() {
+            $.ajax({
+                url: `/api/posts/${postId}`,
+                method: 'GET',
+                success: function(post) {
+                    $('#title').val(post.title);
+                    $('#content').val(post.content);
+                }
+            });
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/eureka-server/com.example.sb3_msa3.eureka-server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/eureka-server/com.example.sb3_msa3.eureka-server.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gateway-service/com.example.sb3_msa3.gateway-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/gateway-service/com.example.sb3_msa3.gateway-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/order-service/com.example.sb3_msa3.order-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/order-service/com.example.sb3_msa3.order-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/sb3_msa3.iml" filepath="$PROJECT_DIR$/.idea/sb3_msa3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service/sb3_msa3.auth-service.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service/sb3_msa3.auth-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service/sb3_msa3.auth-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service/sb3_msa3.auth-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service/sb3_msa3.auth-service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service/sb3_msa3.auth-service.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/board-service/sb3_msa3.board-service.iml" filepath="$PROJECT_DIR$/.idea/modules/board-service/sb3_msa3.board-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/board-service/sb3_msa3.board-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/board-service/sb3_msa3.board-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/board-service/sb3_msa3.board-service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/board-service/sb3_msa3.board-service.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/eureka-server/sb3_msa3.eureka-server.iml" filepath="$PROJECT_DIR$/.idea/modules/eureka-server/sb3_msa3.eureka-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/eureka-server/sb3_msa3.eureka-server.test.iml" filepath="$PROJECT_DIR$/.idea/modules/eureka-server/sb3_msa3.eureka-server.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gateway-service/sb3_msa3.gateway-service.iml" filepath="$PROJECT_DIR$/.idea/modules/gateway-service/sb3_msa3.gateway-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gateway-service/sb3_msa3.gateway-service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/gateway-service/sb3_msa3.gateway-service.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/inventory-service/sb3_msa3.inventory-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/inventory-service/sb3_msa3.inventory-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/menu-service/sb3_msa3.menu-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/menu-service/sb3_msa3.menu-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/order-service/sb3_msa3.order-service.iml" filepath="$PROJECT_DIR$/.idea/modules/order-service/sb3_msa3.order-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/order-service/sb3_msa3.order-service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/order-service/sb3_msa3.order-service.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/product-service/sb3_msa3.product-service.iml" filepath="$PROJECT_DIR$/.idea/modules/product-service/sb3_msa3.product-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/product-service/sb3_msa3.product-service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/product-service/sb3_msa3.product-service.test.iml" />
+    </modules>
+  </component>
+</project>
