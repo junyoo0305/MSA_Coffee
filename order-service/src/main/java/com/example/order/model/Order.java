@@ -1,30 +1,30 @@
 package com.example.order.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Table(name = "ORDERS")
+@Data
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long menuId;
-    private int quantity;
-    private int totalPrice;
+    private String customerName; // 예시
+    private String status; // PENDING, COMPLETED, FAILED
+    private BigDecimal totalPrice;
+    private LocalDateTime orderDate;
 
-    @Enumerated(EnumType.STRING)
-    private Status status; // ✅ 내부 enum 사용
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<OrderItem> items = new ArrayList<>();
 
-    public enum Status {
-        CREATED,   // 주문 생성됨
-        CONFIRMED, // 결제 완료
-        CANCELLED  // 주문 취소됨
+    @PrePersist
+    protected void onCreate() {
+        orderDate = LocalDateTime.now();
     }
-
 }

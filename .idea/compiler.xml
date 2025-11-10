@@ -8,8 +8,8 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.30/f195ee86e6c896ea47a1d39defbe20eb59cd149d/lombok-1.18.30.jar" />
         </processorPath>
         <module name="com.example.sb3_msa3.gateway-service.main" />
+        <module name="sb3_msa3.stock-service.main" />
         <module name="com.example.sb3_msa3.order-service.main" />
-        <module name="sb3_msa3.inventory-service.main" />
         <module name="sb3_msa3.menu-service.main" />
         <module name="com.example.sb3_msa3.eureka-server.main" />
       </profile>
@@ -43,6 +43,9 @@
       <module name="sb3_msa3.order2-service" options="-parameters" />
       <module name="sb3_msa3.order2-service.main" options="-parameters" />
       <module name="sb3_msa3.order2-service.test" options="-parameters" />
+      <module name="sb3_msa3.stock-service" options="-parameters" />
+      <module name="sb3_msa3.stock-service.main" options="-parameters" />
+      <module name="sb3_msa3.stock-service.test" options="-parameters" />
     </option>
   </component>
 </project>

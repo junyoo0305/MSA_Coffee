@@ -43,8 +43,21 @@ public class WebController {
         return "admin";
     }
 
-    @GetMapping("/order-test")
-    public String orderTest() {
-        return "order-test";
+    @GetMapping("/stocks")
+    public String stocks(Model model) {
+        model.addAttribute("message", "재고 목록");
+        return "stocks";
+    }
+
+    @GetMapping("/menus")
+    public String menus(Model model) {
+        model.addAttribute("message", "상품 관리");
+        return "menus";
+    }
+
+    @GetMapping("/list")
+    public String list(Model model) {
+        model.addAttribute("message", "게시판");
+        return "list";
     }
 } 

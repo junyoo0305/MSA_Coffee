@@ -16,7 +16,6 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/eureka-server/sb3_msa3.eureka-server.test.iml" filepath="$PROJECT_DIR$/.idea/modules/eureka-server/sb3_msa3.eureka-server.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/gateway-service/sb3_msa3.gateway-service.iml" filepath="$PROJECT_DIR$/.idea/modules/gateway-service/sb3_msa3.gateway-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/gateway-service/sb3_msa3.gateway-service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/gateway-service/sb3_msa3.gateway-service.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/inventory-service/sb3_msa3.inventory-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/inventory-service/sb3_msa3.inventory-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/menu-service/sb3_msa3.menu-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/menu-service/sb3_msa3.menu-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/order-service/sb3_msa3.order-service.iml" filepath="$PROJECT_DIR$/.idea/modules/order-service/sb3_msa3.order-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/order-service/sb3_msa3.order-service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/order-service/sb3_msa3.order-service.test.iml" />
