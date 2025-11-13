@@ -1,49 +1,41 @@
-// API 엔드포인트
-const MENU_SERVICE_URL = 'http://localhost:8002/api/menus';
-const STOCK_SERVICE_URL = 'http://localhost:8003/api/stocks';
+// API 엔드포인트 (게이트웨이 8000번 포트로 수정)
+const MENU_SERVICE_URL = 'http://localhost:8000/api/menus';
+// const STOCK_SERVICE_URL = ...; // (제거) 재고 서비스 호출 제거
 
 document.addEventListener('DOMContentLoaded', () => {
-    loadMenuAndStockList();
+    // (수정) 함수 이름 변경: loadMenuAndStockList -> loadMenuList
+    loadMenuList();
 
     const createMenuForm = document.getElementById('create-menu-form');
     createMenuForm.addEventListener('submit', handleCreateMenu);
 });
 
-// 페이지 로드 시 메뉴와 재고 목록을 가져와 테이블을 채웁니다.
-async function loadMenuAndStockList() {
+// (수정) loadMenuList: 재고 관련 로직 모두 제거
+async function loadMenuList() {
     try {
         // 1. 메뉴 서비스에서 모든 메뉴를 가져옵니다.
         const menuResponse = await fetch(MENU_SERVICE_URL);
+        if (!menuResponse.ok) throw new Error('메뉴 로딩 실패');
         const menus = await menuResponse.json();
 
-        // 2. 스톡 서비스에서 모든 재고 정보를 가져옵니다.
-        const stockResponse = await fetch(STOCK_SERVICE_URL);
-        const stocks = await stockResponse.json();
+        // 2. (제거) 스톡 서비스에서 재고 정보 가져오는 로직 전체 삭제
 
-        // 3. 재고 정보를 Map으로 변환 (stockId를 키로 사용)
-        const stockMap = new Map(stocks.map(stock => [stock.id, stock]));
+        // 3. (제거) 재고 정보 Map 변환 로직 삭제
 
         const tableBody = document.querySelector('#menu-stock-table tbody');
         tableBody.innerHTML = ''; // 기존 목록 초기화
 
-        // 4. 메뉴와 재고 정보를 조합하여 테이블에 그립니다.
+        // 4. (수정) 메뉴 정보만으로 테이블을 그립니다. (재고 열 제거)
         menus.forEach(menu => {
-            const stock = stockMap.get(menu.stockId) || { stock: 'N/A', name: menu.name, description: menu.description };
-
             const row = `
                 <tr>
                     <td>${menu.id}</td>
                     <td>${menu.name}</td>
+                    <td>${menu.description || ''}</td>
                     <td>${menu.price}원</td>
-                    <td>${menu.stockId || '없음'}</td>
-                    <td>${stock.stock}</td>
-                    <td><input type="number" class="stock-input" id="stock-input-${menu.stockId}" value="${stock.stock}"></td>
                     <td>
-                        <button class="stock-save-btn" 
-                                data-stock-id="${menu.stockId}" 
-                                data-name="${menu.name}" 
-                                data-description="${menu.description || ''}">
-                            재고 저장
+                        <button class="delete-btn" data-menu-id="${menu.id}">
+                            삭제
                         </button>
                     </td>
                 </tr>
@@ -51,9 +43,9 @@ async function loadMenuAndStockList() {
             tableBody.innerHTML += row;
         });
 
-        // 5. 동적으로 생성된 '재고 저장' 버튼들에 이벤트 리스너를 추가합니다.
-        document.querySelectorAll('.stock-save-btn').forEach(button => {
-            button.addEventListener('click', handleUpdateStock);
+        // 5. (수정) '재고 저장' 버튼 -> '삭제' 버튼에 이벤트 리스너 추가
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', handleDeleteMenu);
         });
 
     } catch (error) {
@@ -61,7 +53,7 @@ async function loadMenuAndStockList() {
     }
 }
 
-// 새 상품 추가 (menu-service 호출)
+// (유지) 새 상품 추가 (menu-service 호출)
 async function handleCreateMenu(event) {
     event.preventDefault();
 
@@ -80,9 +72,11 @@ async function handleCreateMenu(event) {
             throw new Error('상품 추가 실패');
         }
 
-        alert('상품이 성공적으로 추가되었습니다. (재고 0개 생성됨)');
+        alert('상품이 성공적으로 추가되었습니다. (옵션과 재고가 자동 생성됨)');
         document.getElementById('create-menu-form').reset();
-        loadMenuAndStockList(); // 목록 새로고침
+
+        // (수정) 함수 이름 변경
+        loadMenuList(); // 목록 새로고침
 
     } catch (error) {
         console.error('상품 추가 에러:', error);
@@ -90,43 +84,32 @@ async function handleCreateMenu(event) {
     }
 }
 
-// 재고 수정 (stock-service 호출)
-async function handleUpdateStock(event) {
+// (제거) handleUpdateStock 함수 (재고 수정 로직) -> 전체 삭제
+
+// (신규) handleDeleteMenu 함수 (삭제 로직)
+async function handleDeleteMenu(event) {
     const button = event.target;
-    const stockId = button.dataset.stockId;
+    const menuId = button.dataset.menuId;
 
-    // 이 두 값은 재고가 0일 때도 상품명/설명을 유지하기 위해 필요합니다.
-    const name = button.dataset.name;
-    const description = button.dataset.description;
-
-    const newStockAmount = document.getElementById(`stock-input-${stockId}`).value;
-
-    if (newStockAmount < 0) {
-        alert("재고는 0 이상이어야 합니다.");
+    // (참고: 실제로는 이 메뉴를 주문한 내역이 있는지 확인하는 로직이 필요할 수 있습니다)
+    if (!confirm(`[메뉴 ID: ${menuId}] 상품을 정말 삭제하시겠습니까?`)) {
         return;
     }
 
     try {
-        // stock-service의 PUT API는 name, description, stock을 모두 받습니다.
-        const response = await fetch(`${STOCK_SERVICE_URL}/${stockId}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                name: name,
-                description: description,
-                stock: parseInt(newStockAmount)
-            })
+        const response = await fetch(`${MENU_SERVICE_URL}/${menuId}`, {
+            method: 'DELETE'
         });
 
         if (!response.ok) {
-            throw new Error('재고 업데이트 실패');
+            throw new Error('상품 삭제 실패');
         }
 
-        alert('재고가 성공적으로 업데이트되었습니다.');
-        loadMenuAndStockList(); // 목록 새로고침
+        alert('상품이 성공적으로 삭제되었습니다.');
+        loadMenuList(); // 목록 새로고침
 
     } catch (error) {
-        console.error('재고 업데이트 에러:', error);
-        alert('재고 업데이트 실패: ' + error.message);
+        console.error('상품 삭제 에러:', error);
+        alert('상품 삭제 실패: ' + error.message);
     }
 }

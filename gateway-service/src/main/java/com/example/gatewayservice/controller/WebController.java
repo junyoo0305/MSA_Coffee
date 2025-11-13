@@ -60,4 +60,10 @@ public class WebController {
         model.addAttribute("message", "게시판");
         return "list";
     }
+
+    @GetMapping("/dashboard")
+    public String dashboard(Model model) {
+        model.addAttribute("message", "주문 현황");
+        return "dashboard";
+    }
 } 

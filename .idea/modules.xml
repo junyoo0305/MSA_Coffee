@@ -21,6 +21,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/order-service/sb3_msa3.order-service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/order-service/sb3_msa3.order-service.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/product-service/sb3_msa3.product-service.iml" filepath="$PROJECT_DIR$/.idea/modules/product-service/sb3_msa3.product-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/product-service/sb3_msa3.product-service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/product-service/sb3_msa3.product-service.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/stock-service/sb3_msa3.stock-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/stock-service/sb3_msa3.stock-service.main.iml" />
     </modules>
   </component>
 </project>

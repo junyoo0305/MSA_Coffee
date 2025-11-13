@@ -20,6 +20,7 @@ public class Order {
     private BigDecimal totalPrice;
     private LocalDateTime orderDate;
 
+    // (이 주문에 속한 '항목' 목록)
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OrderItem> items = new ArrayList<>();
 

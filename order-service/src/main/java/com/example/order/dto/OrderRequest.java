@@ -12,5 +12,6 @@ public class OrderRequest {
     public static class ItemDto {
         private Long menuId; // 사용자는 메뉴 ID만 알면 됨
         private Integer quantity;
+        private List<Long> optionIds;
     }
 }

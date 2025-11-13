@@ -22,6 +22,63 @@
         #place-order-btn:hover { background-color: #218838; }
         #cart-list li { margin-bottom: 10px; font-size: 1.1em; }
         #order-status { margin-top: 20px; font-weight: bold; }
+
+        /* ========================================
+        ==== 옵션 모달 CSS (여기부터 추가됨) ====
+        ========================================
+        */
+        .modal {
+            display: none; /* 평소에는 숨김 */
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+        }
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-btn:hover { color: #000; }
+
+        #modal-options-container h3 {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 20px;
+        }
+        #modal-options-container div {
+            padding-left: 10px;
+        }
+        #modal-options-container label {
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        #add-cart-confirm-btn {
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #007bff;
+        }
+        /* ==== 옵션 모달 CSS (여기까지) ==== */
+
     </style>
 </head>
 <body>
@@ -45,13 +102,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/stocks">재고</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">주문 현황</a>
+                </li>
             </ul>
             <ul class="navbar-nav" id="authNav">
-                <!-- 로그인 전 -->
                 <li class="nav-item" id="loginNav">
                     <a class="nav-link" href="/login">로그인</a>
                 </li>
-                <!-- 로그인 후 -->
                 <li class="nav-item d-none" id="userNav">
                     <span class="nav-link" id="username"></span>
                 </li>
@@ -62,6 +120,7 @@
         </div>
     </div>
 </nav>
+
 <h1>🛒 커피 주문하기</h1>
 <div class="container">
     <div id="menu-section">
@@ -94,6 +153,16 @@
         </p>
         <button id="place-order-btn">주문하기</button>
         <div id="order-status"></div>
+    </div>
+</div>
+
+<div id="option-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2 id="modal-menu-name">메뉴 옵션 선택</h2>
+        <div id="modal-options-container">
+        </div>
+        <button id="add-cart-confirm-btn">장바구니 담기</button>
     </div>
 </div>
 <script src="/js/orders.js"></script>

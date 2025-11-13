@@ -75,4 +75,11 @@ body {
 .table th {
     background-color: #f8f9fa;
     font-weight: bold;
-} 
+}
+
+.delete-btn {
+    background-color: #dc3545; /* 빨간색 */
+}
+.delete-btn:hover {
+    background-color: #c82333;
+}
