@@ -2,9 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>MSA 프로젝트</title>
+    <title>MSA 프로젝트 - The Cafe</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
     <style>
+        /* 기존 스타일 */
         .navbar-brand {
             font-weight: bold;
         }
@@ -14,95 +17,181 @@
         .nav-link:hover {
             color: #0d6efd;
         }
-        .content {
-            padding: 20px;
+
+        /* ========================================
+        새로 추가된 '커피 테마' 스타일
+        ========================================
+        */
+
+        /* 1. 히어로(Hero) 섹션 스타일 */
+        .hero-section {
+            /* Unsplash에서 커피/카페 관련 랜덤 이미지를 가져옵니다 */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://source.unsplash.com/1600x900/?coffee,cafe');
+            background-size: cover;
+            background-position: center;
+            height: 60vh; /* 화면 높이의 60% */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
         }
-        .welcome-message {
-            text-align: center;
-            margin-top: 50px;
+
+        /* 2. 커피 테마 버튼 (갈색) */
+        .btn-coffee {
+            background-color: #6f4e37; /* Coffee Brown */
+            color: white;
+            font-weight: bold;
+            border: none;
         }
+        .btn-coffee:hover {
+            background-color: #5a3f2d;
+            color: white;
+        }
+
+        /* 3. 카드 섹션 스타일 */
+        .card {
+            border: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-5px); /* 살짝 떠오르는 효과 */
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        .card-icon {
+            font-size: 3rem; /* 48px */
+            color: #6f4e37; /* Coffee Brown */
+        }
+
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-            <a class="navbar-brand" href="/">MSA 프로젝트</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/menus">메뉴 관리</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/orders">주문</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/list">게시판</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/stocks">재고</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/dashboard">주문 현황</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav" id="authNav">
-                    <!-- 로그인 전 -->
-                    <li class="nav-item" id="loginNav">
-                        <a class="nav-link" href="/login">로그인</a>
-                    </li>
-                    <!-- 로그인 후 -->
-                    <li class="nav-item d-none" id="userNav">
-                        <span class="nav-link" id="username"></span>
-                    </li>
-                    <li class="nav-item d-none" id="logoutNav">
-                        <a class="nav-link" href="#" id="logoutBtn">로그아웃</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
 
-    <div class="content">
-        <div class="welcome-message">
-            <h1>MSA 프로젝트에 오신 것을 환영합니다</h1>
-            <p class="lead">상품과 주문을 관리할 수 있는 마이크로서비스 아키텍처 프로젝트입니다.</p>
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <i class="bi bi-cup-hot-fill"></i> The MSA Cafe
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/menus">메뉴 관리</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/orders">주문</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/list">게시판</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/stocks">재고</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">주문 현황</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav" id="authNav">
+                <li class="nav-item" id="loginNav">
+                    <a class="nav-link" href="/login">로그인</a>
+                </li>
+                <li class="nav-item d-none" id="userNav">
+                    <span class="nav-link" id="username"></span>
+                </li>
+                <li class="nav-item d-none" id="logoutNav">
+                    <a class="nav-link" href="#" id="logoutBtn">로그아웃</a>
+                </li>
+            </ul>
         </div>
     </div>
+</nav>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // 로그인 상태 확인
-        function checkLoginStatus() {
-            const token = localStorage.getItem('token');
-            const username = localStorage.getItem('username');
-            const role = localStorage.getItem('role');
+<div class="hero-section text-center">
+    <div class="container">
+        <h1 class="display-3 fw-bold">The MSA Cafe</h1>
+        <p class="lead fs-4">마이크로서비스 아키텍처로 구현된 커피 주문 프로젝트입니다.</p>
+        <a href="/orders" class="btn btn-coffee btn-lg m-2">
+            <i class="bi bi-cart-check"></i> 지금 주문하기
+        </a>
+        <a href="/menus" class="btn btn-outline-light btn-lg m-2">
+            <i class="bi bi-book"></i> 메뉴 관리
+        </a>
+    </div>
+</div>
 
-            if (token && username) {
-                document.getElementById('loginNav').classList.add('d-none');
-                document.getElementById('userNav').classList.remove('d-none');
-                document.getElementById('logoutNav').classList.remove('d-none');
-                document.getElementById('username').textContent = `${username} (${role})`;
-            } else {
-                document.getElementById('loginNav').classList.remove('d-none');
-                document.getElementById('userNav').classList.add('d-none');
-                document.getElementById('logoutNav').classList.add('d-none');
-            }
+<div class="container mt-5 mb-5">
+    <h2 class="text-center mb-4">주요 기능</h2>
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="card h-100 text-center shadow-sm">
+                <div class="card-body">
+                    <div class="card-icon mb-3"><i class="bi bi-journal-plus"></i></div>
+                    <h5 class="card-title">동적 메뉴 관리</h5>
+                    <p class="card-text">실시간으로 메뉴와 옵션을 추가, 수정, 삭제합니다. (Menu Service)</p>
+                    <a href="/menus" class="btn btn-coffee">메뉴 관리로 이동</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 text-center shadow-sm">
+                <div class="card-body">
+                    <div class="card-icon mb-3"><i class="bi bi-bar-chart-line-fill"></i></div>
+                    <h5 class="card-title">실시간 주문 현황</h5>
+                    <p class="card-text">10초마다 자동으로 업데이트되는 주문 대시보드입니다. (Order Service)</p>
+                    <a href="/dashboard" class="btn btn-coffee">대시보드로 이동</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 text-center shadow-sm">
+                <div class="card-body">
+                    <div class="card-icon mb-3"><i class="bi bi-box-seam-fill"></i></div>
+                    <h5 class="card-title">분산 재고 관리</h5>
+                    <p class="card-text">주문 시 Feign Client를 통해 재고를 차감합니다. (Stock Service)</p>
+                    <a href="/stocks" class="btn btn-coffee">재고 관리로 이동</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // 로그인 상태 확인 (기존 코드)
+    function checkLoginStatus() {
+        const token = localStorage.getItem('token');
+        const username = localStorage.getItem('username');
+        const role = localStorage.getItem('role');
+
+        if (token && username) {
+            document.getElementById('loginNav').classList.add('d-none');
+            document.getElementById('userNav').classList.remove('d-none');
+            document.getElementById('logoutNav').classList.remove('d-none');
+            document.getElementById('username').textContent = `${username} (${role})`;
+        } else {
+            document.getElementById('loginNav').classList.remove('d-none');
+            document.getElementById('userNav').classList.add('d-none');
+            document.getElementById('logoutNav').classList.add('d-none');
         }
+    }
 
-        // 로그아웃 처리
-        document.getElementById('logoutBtn').addEventListener('click', function(e) {
-            e.preventDefault();
-            localStorage.removeItem('token');
-            localStorage.removeItem('username');
-            localStorage.removeItem('role');
-            window.location.href = '/login';
-        });
+    // 로그아웃 처리 (기존 코드)
+    document.getElementById('logoutBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        localStorage.removeItem('token');
+        localStorage.removeItem('username');
+        localStorage.removeItem('role');
+        window.location.href = '/login';
+    });
 
-        // 페이지 로드 시 로그인 상태 확인
-        document.addEventListener('DOMContentLoaded', checkLoginStatus);
-    </script>
+    // 페이지 로드 시 로그인 상태 확인 (기존 코드)
+    document.addEventListener('DOMContentLoaded', checkLoginStatus);
+</script>
 </body>
-</html> 
+</html>
