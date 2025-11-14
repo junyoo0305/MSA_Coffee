@@ -11,9 +11,21 @@
         th, td { border: 1px solid #ccc; padding: 10px; text-align: left; vertical-align: top; }
         th { background-color: #f9f9f9; }
         .details-list { margin: 0; padding-left: 20px; }
-        .status-completed { color: green; font-weight: bold; }
-        .status-pending { color: orange; font-weight: bold; }
-        .status-failed { color: red; font-weight: bold; }
+
+        /* 상태별 색상 (기존) */
+        .status-PREPARING { color: #fd7e14; font-weight: bold; } /* 주황색 (조리중) */
+        .status-READY { color: #0d6efd; font-weight: bold; } /* 파란색 (픽업 대기) */
+        .status-COMPLETED { color: green; font-weight: bold; } /* 초록색 (수령 완료) */
+        .status-FAILED { color: red; font-weight: bold; }
+
+        /* ★★★ 열 너비 조절 (추가) ★★★ */
+        .col-id { width: 8%; }
+        .col-time { width: 18%; } /* 주문 시간 열 너비 고정 */
+        .col-customer { width: 12%; }
+        /* 주문 내역은 남은 공간 모두 사용 */
+        .col-total { width: 12%; }
+        .col-status { width: 10%; }
+        .col-action { width: 15%; } /* 상태 변경 열 */
     </style>
 </head>
 <body>
@@ -47,13 +59,12 @@
 <table id="orders-table">
     <thead>
     <tr>
-        <th>주문 ID</th>
-        <th>주문 시간</th>
-        <th>주문자</th>
-        <th>주문 내역</th>
-        <th>총 금액</th>
-        <th>상태</th>
-    </tr>
+        <th class="col-id">주문 ID</th>
+        <th class="col-time">주문 시간</th>
+        <th class="col-customer">주문자</th>
+        <th>주문 내역</th> <th class="col-total">총 금액</th>
+        <th class="col-status">상태</th>
+        <th class="col-action">상태 변경</th> </tr>
     </thead>
     <tbody>
     </tbody>

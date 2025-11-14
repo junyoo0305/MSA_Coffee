@@ -90,4 +90,30 @@ public class MenuService {
         sizeUp.setOptionGroup(sizeGroup); // "사이즈" 그룹에 연결
         optionRepository.save(sizeUp);
     }
+
+    @Transactional
+    public void deleteMenu(Long menuId) {
+        // 1. 메뉴 정보 조회
+        Menu menu = menuRepository.findById(menuId)
+                .orElseThrow(() -> new RuntimeException("Menu not found with id: " + menuId));
+
+        Long stockId = menu.getStockId();
+
+        // 2. (JPA Cascade) 메뉴를 삭제합니다.
+        //    Menu.java의 @OneToMany(cascade = CascadeType.ALL) 설정 덕분에
+        //    이 메뉴에 연결된 OptionGroups와 Options가 자동으로 함께 삭제됩니다.
+        menuRepository.delete(menu);
+
+        // 3. (Feign Call) STOCK-SERVICE에 재고 삭제를 요청합니다.
+        if (stockId != null) {
+            try {
+                stockServiceFeignClient.deleteStock(stockId);
+            } catch (Exception e) {
+                // Feign 호출이 실패해도 메뉴 삭제는 롤백되지 않도록 처리
+                // (더 복잡한 Saga 패턴을 쓰지 않는 이상, 일단 로그만 남깁니다)
+                System.err.println("Failed to delete stock with id: " + stockId + ". Error: " + e.getMessage());
+                // (선택) 여기서 커스텀 예외를 발생시켜 롤백시킬 수도 있습니다.
+            }
+        }
+    }
 }

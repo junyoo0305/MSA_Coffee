@@ -64,13 +64,12 @@ public class MenuController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMenu(@PathVariable Long id) {
-        // (참고: 이 메뉴와 연결된 Stock, Option 등도 함께 삭제하는 로직이
-        // MenuService에 추가되면 더 좋습니다. 지금은 메뉴만 삭제합니다.)
-        return menuRepository.findById(id)
-                .map(menu -> {
-                    menuRepository.delete(menu);
-                    return ResponseEntity.ok().<Void>build();
-                })
-                .orElse(ResponseEntity.notFound().build());
+        try {
+            // 1. Controller는 Service의 메소드를 호출만 하도록 변경
+            menuService.deleteMenu(id);
+            return ResponseEntity.ok().<Void>build();
+        } catch (RuntimeException e) { // (MenuService에서 Menu not found 예외가 터졌을 때)
+            return ResponseEntity.notFound().build();
+        }
     }
 }

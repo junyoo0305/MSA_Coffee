@@ -3,6 +3,9 @@ package com.example.menu.client;
 import com.example.menu.dto.StockCreateRequest;
 import com.example.menu.dto.StockCreateResponse;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -15,4 +18,8 @@ public interface StockServiceFeignClient {
     // StockController에 만들어둔 API 경로와 정확히 일치해야 함
     @PostMapping("/api/stocks")
     StockCreateResponse createStock(@RequestBody StockCreateRequest request);
+
+    // StockController의 deleteStock()이랑 시그니처를 맞춘다
+    @DeleteMapping("/api/stocks/{id}")
+    ResponseEntity<Void> deleteStock(@PathVariable Long id);
 }

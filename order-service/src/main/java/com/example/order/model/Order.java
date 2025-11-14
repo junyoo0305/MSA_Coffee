@@ -16,7 +16,7 @@ public class Order {
     private Long id;
 
     private String customerName; // 예시
-    private String status; // PENDING, COMPLETED, FAILED
+    private String status; // PREPARING, COMPLETED, FAILED
     private BigDecimal totalPrice;
     private LocalDateTime orderDate;
 

@@ -84,7 +84,7 @@ public class OrderService {
                 grandTotal = grandTotal.add(finalPricePerItem.multiply(BigDecimal.valueOf(itemDto.getQuantity())));
             }
 
-            order.setStatus("COMPLETED");
+            order.setStatus("PREPARING");
             order.setTotalPrice(grandTotal);
             return orderRepository.save(order);
 
