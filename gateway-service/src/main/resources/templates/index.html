@@ -23,18 +23,22 @@
         ========================================
         */
 
-        /* 1. 히어로(Hero) 섹션 스타일 */
+        /* 1. 히어로(Hero) 섹션 스타일 수정 */
         .hero-section {
-            /* Unsplash에서 커피/카페 관련 랜덤 이미지를 가져옵니다 */
-            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://source.unsplash.com/1600x900/?coffee,cafe');
-            background-size: cover;
-            background-position: center;
-            height: 60vh; /* 화면 높이의 60% */
+            /* 배경 이미지 변경: 원두 가공/로스팅 이미지 URL 적용 */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+            url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1920&auto=format&fit=crop');
+
+            background-size: cover; /* 이미지가 영역을 꽉 채우도록 */
+            background-position: center; /* 이미지의 중앙을 보여줌 */
+            background-attachment: fixed; /* (선택) 스크롤 할 때 배경은 고정되어 고급스러운 느낌 */
+
+            height: 80vh; /* 화면 높이의 60% */
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* 글자가 잘 보이도록 그림자 진하게 */
         }
 
         /* 2. 커피 테마 버튼 (갈색) */
