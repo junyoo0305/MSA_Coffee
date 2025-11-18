@@ -25,6 +25,8 @@ public class Menu {
     @Column(nullable = false)
     private BigDecimal price;
 
+    private String imageUrl;
+
     private Long  stockId; // <-- 핵심
 
     @JsonManagedReference // (순환 참조 방지 1)

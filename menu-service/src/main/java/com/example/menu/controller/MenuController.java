@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -22,9 +23,14 @@ public class MenuController {
     private final MenuService menuService;
     private final MenuRepository menuRepository;
 
-    @PostMapping
-    public ResponseEntity<Menu> createMenu(@RequestBody MenuCreateRequest request) {
-        Menu menu = menuService.createMenu(request.getName(), request.getDescription(), request.getPrice());
+    @PostMapping(consumes = "multipart/form-data") // ★ multipart 타입 지정
+    public ResponseEntity<Menu> createMenu(
+            @RequestParam("name") String name,
+            @RequestParam("description") String description,
+            @RequestParam("price") BigDecimal price,
+            @RequestParam(value = "file", required = false) MultipartFile file // 파일 받기
+    ) {
+        Menu menu = menuService.createMenu(name, description, price, file);
         return ResponseEntity.ok(menu);
     }
 

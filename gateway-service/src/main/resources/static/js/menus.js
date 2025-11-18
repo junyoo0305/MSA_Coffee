@@ -27,12 +27,23 @@ async function loadMenuList() {
 
         // 4. (수정) 메뉴 정보만으로 테이블을 그립니다. (재고 열 제거)
         menus.forEach(menu => {
+            // 이미지가 있으면 해당 경로, 없으면 회색 박스(placeholder)
+            // ★ 이미지 경로는 Gateway(8000)를 통해 Menu-Service(8002)로 라우팅되어야 함
+            // (백엔드에서 imageUrl이 '/images/uuid_filename.jpg' 형태로 저장되었다고 가정)
+            const imgSrc = menu.imageUrl
+                ? `http://localhost:8000${menu.imageUrl}`
+                : 'https://via.placeholder.com/50?text=No+Img';
+
             const row = `
                 <tr>
                     <td>${menu.id}</td>
-                    <td>${menu.name}</td>
-                    <td>${menu.description || ''}</td>
-                    <td>${menu.price}원</td>
+                    <td>
+                        <img src="${imgSrc}" alt="${menu.name}" 
+                             style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px; border: 1px solid #eee;">
+                    </td>
+                    <td class="fw-bold">${menu.name}</td>
+                    <td class="text-muted small">${menu.description || '-'}</td>
+                    <td>${menu.price.toLocaleString()}원</td>
                     <td>
                         <button class="delete-btn" data-menu-id="${menu.id}">
                             삭제
@@ -60,22 +71,33 @@ async function handleCreateMenu(event) {
     const name = document.getElementById('name').value;
     const description = document.getElementById('description').value;
     const price = document.getElementById('price').value;
+    const fileInput = document.getElementById('file');
+
+    // ★ JSON 대신 FormData 객체 생성
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("price", price);
+
+    // 파일이 선택되었을 때만 추가
+    if (fileInput.files.length > 0) {
+        formData.append("file", fileInput.files[0]);
+    }
 
     try {
         const response = await fetch(MENU_SERVICE_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, description, price: parseFloat(price) })
+            // ★ 주의: FormData 전송 시에는 headers에 'Content-Type'을 직접 설정하면 안 됩니다.
+            // 브라우저가 자동으로 boundary를 포함한 multipart/form-data 헤더를 설정합니다.
+            body: formData
         });
 
         if (!response.ok) {
             throw new Error('상품 추가 실패');
         }
 
-        alert('상품이 성공적으로 추가되었습니다. (옵션과 재고가 자동 생성됨)');
+        alert('상품이 성공적으로 추가되었습니다.');
         document.getElementById('create-menu-form').reset();
-
-        // (수정) 함수 이름 변경
         loadMenuList(); // 목록 새로고침
 
     } catch (error) {
@@ -91,7 +113,6 @@ async function handleDeleteMenu(event) {
     const button = event.target;
     const menuId = button.dataset.menuId;
 
-    // (참고: 실제로는 이 메뉴를 주문한 내역이 있는지 확인하는 로직이 필요할 수 있습니다)
     if (!confirm(`[메뉴 ID: ${menuId}] 상품을 정말 삭제하시겠습니까?`)) {
         return;
     }
@@ -106,7 +127,7 @@ async function handleDeleteMenu(event) {
         }
 
         alert('상품이 성공적으로 삭제되었습니다.');
-        loadMenuList(); // 목록 새로고침
+        loadMenuList();
 
     } catch (error) {
         console.error('상품 삭제 에러:', error);

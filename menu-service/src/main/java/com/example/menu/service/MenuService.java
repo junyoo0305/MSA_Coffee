@@ -12,12 +12,21 @@ import com.example.menu.repository.OptionRepository; // 1. 임포트
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.math.BigDecimal; // 1. 임포트
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class MenuService {
+
+    // ★ 파일 업로드 경로 (프로젝트 루트/uploads)
+    private final String UPLOAD_DIR = "./uploads/";
 
     private final MenuRepository menuRepository;
     private final StockServiceFeignClient stockServiceFeignClient;
@@ -27,25 +36,48 @@ public class MenuService {
     private final OptionRepository optionRepository;
 
     @Transactional
-    public Menu createMenu(String name, String description, BigDecimal price) {
-        // 1. Menu 엔티티 생성 및 저장 (아직 stockId는 null)
+    public Menu createMenu(String name, String description, BigDecimal price, MultipartFile file) {
+        // 1. 이미지 파일 저장 처리
+        String imagePath = null;
+        if (file != null && !file.isEmpty()) {
+            try {
+                // 폴더가 없으면 생성
+                Path uploadPath = Paths.get(UPLOAD_DIR);
+                if (!Files.exists(uploadPath)) {
+                    Files.createDirectories(uploadPath);
+                }
+
+                // 파일명 중복 방지를 위해 UUID 사용
+                String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+                Path filePath = uploadPath.resolve(fileName);
+                Files.copy(file.getInputStream(), filePath);
+
+                // DB에 저장할 접근 URL (/images/파일명)
+                imagePath = "/images/" + fileName;
+
+            } catch (IOException e) {
+                throw new RuntimeException("이미지 저장 실패: " + e.getMessage());
+            }
+        }
+
+        // 2. 메뉴 생성
         Menu menu = new Menu();
         menu.setName(name);
         menu.setDescription(description);
         menu.setPrice(price);
-        Menu savedMenu = menuRepository.save(menu); // 1차 저장 (menu ID 생성)
+        menu.setImageUrl(imagePath); // ★ 이미지 경로 저장
 
-        // 2. stock-service에 재고 생성 요청 (초기 재고 0)
+        Menu savedMenu = menuRepository.save(menu);
+
+        // 3. 재고 생성 (기존 로직)
         StockCreateRequest stockRequest = new StockCreateRequest(name, description, 0);
         StockCreateResponse stockResponse = stockServiceFeignClient.createStock(stockRequest);
 
-        // 3. ★★★ 이 메뉴에 대한 기본 옵션 생성 (새로 추가된 로직) ★★★
+        // 4. 옵션 생성 (기존 로직)
         createStandardOptionsForMenu(savedMenu);
-        // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 
-        // 4. 반환받은 stockId를 Menu 엔티티에 업데이트
         savedMenu.setStockId(stockResponse.getId());
-        return menuRepository.save(savedMenu); // 2차 저장 (stockId 업데이트)
+        return menuRepository.save(savedMenu);
     }
 
     // 4. ★★★ 이 메뉴에 대한 표준 옵션을 생성하는 헬퍼 메소드 (신규 추가) ★★★

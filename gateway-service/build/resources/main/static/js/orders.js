@@ -46,42 +46,71 @@ async function loadMenuList() {
         const stocks = await stockResponse.json();
         const stockMap = new Map(stocks.map(stock => [stock.id, stock.stock]));
 
-        // 메뉴 데이터와 재고 데이터를 합침
+        // 데이터 병합
         menuDataStore = menus.map(menu => ({
             ...menu,
             stock: stockMap.get(menu.stockId) || 0
         }));
 
-        // 테이블 그리기
-        const tableBody = document.querySelector('#menu-table tbody');
-        tableBody.innerHTML = '';
+        // ★★★ [변경됨] 테이블 대신 그리드 컨테이너를 선택 ★★★
+        const menuGrid = document.getElementById('menu-grid');
+        menuGrid.innerHTML = '';
+
         menuDataStore.forEach(item => {
-            const row = `
-                <tr>
-                    <td>${item.name}</td>
-                    <td>${item.description || ''}</td>
-                    <td>${item.price.toLocaleString()}원</td>
-                    <td>${item.stock}개</td>
-                    <td>
-                        <input type="number" class="quantity-input" id="quantity-${item.id}" value="1" min="1" max="${item.stock}">
-                    </td>
-                    <td>
-                        <button class="add-cart-btn" data-menu-id="${item.id}" ${item.stock <= 0 ? 'disabled' : ''}>
-                            ${item.stock <= 0 ? '재고 없음' : '카트 담기'}
-                        </button>
-                    </td>
-                </tr>
+            // 이미지 경로 처리 (이미지가 없으면 플레이스홀더 사용)
+            // http://localhost:8000 을 붙여서 게이트웨이를 통하도록 함
+            const imgSrc = item.imageUrl
+                ? `http://localhost:8000${item.imageUrl}`
+                : 'https://via.placeholder.com/300x200?text=No+Image';
+
+            // 품절 여부 확인
+            const isSoldOut = item.stock <= 0;
+            const btnDisabled = isSoldOut ? 'disabled' : '';
+            const btnText = isSoldOut ? '품절' : '담기';
+            const btnClass = isSoldOut ? 'btn-secondary' : 'btn-coffee';
+
+            // ★★★ [변경됨] 카드 HTML 생성 ★★★
+            const cardHtml = `
+                <div class="col">
+                    <div class="card h-100 border-0 shadow-sm" style="transition: transform 0.2s;">
+                        <div style="height: 180px; overflow: hidden; border-top-left-radius: 8px; border-top-right-radius: 8px;">
+                            <img src="${imgSrc}" class="card-img-top" alt="${item.name}" 
+                                 style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title fw-bold" style="color: #4a342e;">${item.name}</h5>
+                            <p class="card-text text-muted small flex-grow-1">
+                                ${item.description || '설명 없음'}
+                            </p>
+                            <div class="d-flex justify-content-between align-items-end mt-2">
+                                <div>
+                                    <span class="fw-bold fs-5 text-dark">${item.price.toLocaleString()}원</span>
+                                    <br>
+                                    <small class="text-muted">남은수량: ${item.stock}</small>
+                                </div>
+                                
+                                <input type="hidden" id="quantity-${item.id}" value="1">
+                                
+                                <button class="add-cart-btn btn ${btnClass}" 
+                                        data-menu-id="${item.id}" ${btnDisabled}>
+                                    <i class="bi bi-cart-plus"></i> ${btnText}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             `;
-            tableBody.innerHTML += row;
+            menuGrid.innerHTML += cardHtml;
         });
 
-        // 버튼에 이벤트 리스너 연결
+        // 이벤트 리스너 연결 (동일)
         document.querySelectorAll('.add-cart-btn').forEach(button => {
             button.addEventListener('click', handleShowOptionModal);
         });
 
     } catch (error) {
         console.error('메뉴 로딩 실패:', error);
+        menuGrid.innerHTML = '<p class="text-center text-danger">메뉴를 불러오는데 실패했습니다.</p>';
     }
 }
 
