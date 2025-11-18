@@ -62,7 +62,7 @@ body {
     overflow: hidden;
 }
 /* 카드 상단에 커피색 포인트 라인 추가 */
-.content-card::top {
+.content-card::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
