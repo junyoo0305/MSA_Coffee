@@ -25,6 +25,7 @@ public class Menu {
     @Column(nullable = false)
     private BigDecimal price;
 
+//    @Column(name = "")
     private String imageUrl;
 
     private Long  stockId; // <-- 핵심

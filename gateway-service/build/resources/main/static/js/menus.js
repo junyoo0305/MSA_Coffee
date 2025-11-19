@@ -27,13 +27,18 @@ async function loadMenuList() {
 
         // 4. (수정) 메뉴 정보만으로 테이블을 그립니다. (재고 열 제거)
         menus.forEach(menu => {
-            // 이미지가 있으면 해당 경로, 없으면 회색 박스(placeholder)
-            // ★ 이미지 경로는 Gateway(8000)를 통해 Menu-Service(8002)로 라우팅되어야 함
-            // (백엔드에서 imageUrl이 '/images/uuid_filename.jpg' 형태로 저장되었다고 가정)
-            const imgSrc = menu.imageUrl
-                ? `http://localhost:8000${menu.imageUrl}`
-                : 'https://via.placeholder.com/50?text=No+Img';
+            // ★★★ 수정된 이미지 경로 처리 로직 ★★★
+            let imgSrc = 'https://via.placeholder.com/50?text=No+Img'; // 기본값
 
+            if (menu.imageUrl) {
+                if (menu.imageUrl.startsWith('http')) {
+                    // 1. http로 시작하면 (외부 인터넷 이미지) -> 그대로 사용
+                    imgSrc = menu.imageUrl;
+                } else {
+                    // 2. 아니면 (직접 업로드한 로컬 이미지) -> 게이트웨이 주소 붙이기
+                    imgSrc = `http://localhost:8000${menu.imageUrl}`;
+                }
+            }
             const row = `
                 <tr>
                     <td>${menu.id}</td>

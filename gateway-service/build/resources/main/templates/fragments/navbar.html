@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<nav th:fragment="navbarFragment" class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <i class="bi bi-cup-hot-fill"></i> The MSA Cafe
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" href="/menus">메뉴 관리</a></li>
+                <li class="nav-item"><a class="nav-link" href="/orders">주문</a></li>
+                <li class="nav-item"><a class="nav-link" href="/list">게시판</a></li>
+                <li class="nav-item"><a class="nav-link" href="/stocks">재고</a></li>
+                <li class="nav-item"><a class="nav-link" href="/dashboard">주문 현황</a></li>
+            </ul>
+            <ul class="navbar-nav" id="authNav">
+                <li class="nav-item" id="loginNav">
+                    <a class="nav-link" href="/login">로그인</a>
+                </li>
+                <li class="nav-item d-none" id="userNav">
+                    <span class="nav-link" id="username"></span>
+                </li>
+                <li class="nav-item d-none" id="logoutNav">
+                    <a class="nav-link" href="#" id="logoutBtn">로그아웃</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+</body>
+</html>
