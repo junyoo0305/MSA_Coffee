@@ -1,5 +1,6 @@
 package com.example.gatewayservice.controller;
 
+import com.example.gatewayservice.dto.ChangePasswordRequest;
 import com.example.gatewayservice.dto.LoginRequest;
 import com.example.gatewayservice.dto.LoginResponse;
 import com.example.gatewayservice.dto.RegisterRequest;
@@ -46,6 +47,31 @@ public class AuthController {
 
                     userRepository.save(user);
                     return Mono.just(ResponseEntity.ok().build());
+                });
+    }
+
+    // 비밀번호 변경 요청
+    @PostMapping("/changepassword")
+    public Mono<ResponseEntity<String>> changePassword(@RequestBody ChangePasswordRequest request) {
+        String username = request.getUsername();  // 사용자가 제공한 사용자명
+
+        return Mono.justOrEmpty(userRepository.findByUsername(username))
+                .switchIfEmpty(Mono.error(new RuntimeException("사용자를 찾을 수 없습니다.")))
+                .flatMap(user -> {
+                    // 현재 비밀번호 확인
+                    if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+                        return Mono.just(ResponseEntity.badRequest().body("현재 비밀번호가 일치하지 않습니다."));
+                    }
+
+                    // 새 비밀번호가 기존 비밀번호와 같은지 확인
+                    if (passwordEncoder.matches(request.getNewPassword(), user.getPassword())) {
+                        return Mono.just(ResponseEntity.badRequest().body("기존 비밀번호가 같습니다. 다른 비밀번호로 변경해주세요."));
+                    }
+
+                    // 새 비밀번호로 업데이트
+                    user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+                    return Mono.fromRunnable(() -> userRepository.save(user))
+                            .then(Mono.just(ResponseEntity.ok().body("비밀번호 변경 성공")));
                 });
     }
 } 

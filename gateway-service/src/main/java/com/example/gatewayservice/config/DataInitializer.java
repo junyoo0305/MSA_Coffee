@@ -21,21 +21,21 @@ public class DataInitializer implements CommandLineRunner {
         if (userRepository.count() == 0) {
             User admin = new User();
             admin.setUsername("admin");
-            admin.setPassword(passwordEncoder.encode("admin123"));
+            admin.setPassword(passwordEncoder.encode("admin"));
             admin.setEmail("admin@example.com");
             admin.setRole("ADMIN");
             userRepository.save(admin);
 
             User user1 = new User();
             user1.setUsername("user1");
-            user1.setPassword(passwordEncoder.encode("user123"));
+            user1.setPassword(passwordEncoder.encode("user1"));
             user1.setEmail("user1@example.com");
             user1.setRole("USER");
             userRepository.save(user1);
 
             User user2 = new User();
             user2.setUsername("user2");
-            user2.setPassword(passwordEncoder.encode("user123"));
+            user2.setPassword(passwordEncoder.encode("user2"));
             user2.setEmail("user2@example.com");
             user2.setRole("USER");
             userRepository.save(user2);

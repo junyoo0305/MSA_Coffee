@@ -57,11 +57,17 @@ async function loadMenuList() {
         menuGrid.innerHTML = '';
 
         menuDataStore.forEach(item => {
-            // 이미지 경로 처리 (이미지가 없으면 플레이스홀더 사용)
-            // http://localhost:8000 을 붙여서 게이트웨이를 통하도록 함
-            const imgSrc = item.imageUrl
-                ? `http://localhost:8000${item.imageUrl}`
-                : 'https://via.placeholder.com/300x200?text=No+Image';
+            let imgSrc = 'https://via.placeholder.com/150?text=No+Img'; // 기본 이미지
+
+            if (item.imageUrl) {
+                if (item.imageUrl.startsWith('http')) {
+                    // 1. http 또는 https로 시작하면 (외부 이미지) -> 그대로 사용
+                    imgSrc = item.imageUrl;
+                } else {
+                    // 2. 아니면 (로컬 이미지) -> 게이트웨이 주소 붙이기
+                    imgSrc = `http://localhost:8000${item.imageUrl}`;
+                }
+            }
 
             // 품절 여부 확인
             const isSoldOut = item.stock <= 0;

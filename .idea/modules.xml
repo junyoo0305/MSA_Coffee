@@ -12,6 +12,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/board-service/sb3_msa3.board-service.iml" filepath="$PROJECT_DIR$/.idea/modules/board-service/sb3_msa3.board-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/board-service/sb3_msa3.board-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/board-service/sb3_msa3.board-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/board-service/sb3_msa3.board-service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/board-service/sb3_msa3.board-service.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/customer-service/sb3_msa3.customer-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/customer-service/sb3_msa3.customer-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/eureka-server/sb3_msa3.eureka-server.iml" filepath="$PROJECT_DIR$/.idea/modules/eureka-server/sb3_msa3.eureka-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/eureka-server/sb3_msa3.eureka-server.test.iml" filepath="$PROJECT_DIR$/.idea/modules/eureka-server/sb3_msa3.eureka-server.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/gateway-service/sb3_msa3.gateway-service.iml" filepath="$PROJECT_DIR$/.idea/modules/gateway-service/sb3_msa3.gateway-service.iml" />
