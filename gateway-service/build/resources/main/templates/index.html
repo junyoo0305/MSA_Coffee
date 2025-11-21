@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>MSA 프로젝트 - The Cafe</title>
     <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/common.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
@@ -113,6 +114,19 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+    // ★★★ [핵심] 네비게이션 바 불러오기 함수 ★★★
+    async function loadNavbar() {
+        try {
+            const response = await fetch('/navbar.html'); // navbar.html 파일 경로
+            const html = await response.text();
+            document.getElementById('navbar-placeholder').innerHTML = html;
+
+            // 네비바 로딩이 완료된 후에 로그인 상태 체크 실행
+            checkLoginStatus();
+        } catch (error) {
+            console.error('네비게이션 바 로딩 실패:', error);
+        }
+    }
     /* -------------------------------
        로그인 상태 체크
     --------------------------------*/
@@ -121,16 +135,19 @@
         const username = localStorage.getItem("username");
         const role = localStorage.getItem("role");
 
+        // 요소가 존재하는지 먼저 확인 (안전장치)
+        const loginNav = document.getElementById("loginNav");
+        if (!loginNav) return; // 네비바가 아직 없으면 중단
+
         if (token && username) {
-            document.getElementById("loginNav").classList.add("d-none");
+            loginNav.classList.add("d-none");
             document.getElementById("registerNav").classList.add("d-none");
             document.getElementById("userNav").classList.remove("d-none");
             document.getElementById("logoutNav").classList.remove("d-none");
             document.getElementById("changePasswordNav").classList.remove("d-none");
-
             document.getElementById("username").textContent = `${username} (${role})`;
         } else {
-            document.getElementById("loginNav").classList.remove("d-none");
+            loginNav.classList.remove("d-none");
             document.getElementById("registerNav").classList.remove("d-none");
             document.getElementById("userNav").classList.add("d-none");
             document.getElementById("logoutNav").classList.add("d-none");
@@ -186,78 +203,65 @@
         const adminPages = ["menuLink", "stockLink", "dashLink", "customerLink"];
         const loginOnlyPages = ["orderLink", "listLink"];
 
-        // 관리자 권한 체크 메뉴
-        adminPages.forEach(id => {
-            const el = document.getElementById(id);
-            if (!el) return;
+        // document 전체에 클릭 이벤트 리스너를 하나만 등록
+        document.addEventListener('click', function(e) {
+            const targetId = e.target.id;
 
-            el.addEventListener("click", function(e) {
+            // 관리자 권한 체크 메뉴 클릭 시
+            if (adminPages.includes(targetId)) {
                 e.preventDefault();
-                checkAdminAccess(el.getAttribute("href"));
-            });
-        });
+                checkAdminAccess(e.target.getAttribute("href"));
+            }
 
-        // 로그인만 필요 메뉴
-        loginOnlyPages.forEach(id => {
-            const el = document.getElementById(id);
-            if (!el) return;
-
-            el.addEventListener("click", function(e) {
+            // 로그인만 필요 메뉴 클릭 시
+            if (loginOnlyPages.includes(targetId)) {
                 e.preventDefault();
-
                 const token = localStorage.getItem("token");
                 const username = localStorage.getItem("username");
-
                 if (!token || !username) {
                     showModal("로그인 필요", "로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?", true);
-                    return;
+                } else {
+                    window.location.href = e.target.getAttribute("href");
                 }
+            }
 
-                window.location.href = el.getAttribute("href");
-            });
+            // 로그아웃 버튼 클릭 시
+            if (targetId === 'logoutBtn') {
+                e.preventDefault();
+                localStorage.removeItem("token");
+                localStorage.removeItem("username");
+                localStorage.removeItem("role");
+                window.location.href = "/";
+            }
         });
     }
 
-    // Hero 주문 버튼도 로그인 체크 추가
+    // 초기화 실행
     document.addEventListener("DOMContentLoaded", () => {
-        checkLoginStatus();
-        bindMenuEvents();
+        loadNavbar(); // 네비게이션 바 불러오기 시작
+        bindMenuEvents(); // 이벤트 위임 설정
 
+        // Hero 주문 버튼 (네비바와 상관없으므로 기존 방식 유지)
         const heroOrderBtn = document.getElementById("heroOrderBtn");
         if (heroOrderBtn) {
             heroOrderBtn.addEventListener("click", (e) => {
                 e.preventDefault();
                 const token = localStorage.getItem("token");
                 const username = localStorage.getItem("username");
-
                 if (!token || !username) {
                     showModal("로그인 필요", "로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?", true);
-                    return;
+                } else {
+                    window.location.href = "/orders";
                 }
-
-                window.location.href = "/orders";
             });
         }
     });
 
-
-    /* -------------------------------
-       로그인 페이지 이동 버튼
-    --------------------------------*/
+    // 로그인 페이지 이동 버튼
     document.getElementById("goToLogin").addEventListener("click", () => {
         window.location.href = "/login";
     });
 
-
-    /* -------------------------------
-       로그아웃 처리
-    --------------------------------*/
-    document.getElementById("logoutBtn").addEventListener("click", () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("username");
-        localStorage.removeItem("role");
-        window.location.href = "/";
-    });
 </script>
 </body>
 </html>

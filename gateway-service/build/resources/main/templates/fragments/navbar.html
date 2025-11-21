@@ -1,34 +1,76 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org"-->
+<!--      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">-->
+<!--<body>-->
+<!--<nav th:fragment="navbarFragment" class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">-->
+<!--    <div class="container">-->
+<!--        <a class="navbar-brand" href="/">-->
+<!--            <i class="bi bi-cup-hot-fill"></i> The MSA Cafe-->
+<!--        </a>-->
+<!--        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">-->
+<!--            <span class="navbar-toggler-icon"></span>-->
+<!--        </button>-->
+
+<!--        <div class="collapse navbar-collapse" id="navbarNav">-->
+<!--            <ul class="navbar-nav me-auto">-->
+<!--                <li class="nav-item"><a class="nav-link active" href="/menus">메뉴 관리</a></li>-->
+<!--                <li class="nav-item"><a class="nav-link active" href="/orders">주문</a></li>-->
+<!--                <li class="nav-item"><a class="nav-link active" href="/list">게시판</a></li>-->
+<!--                <li class="nav-item"><a class="nav-link active" href="/stocks">재고</a></li>-->
+<!--                <li class="nav-item"><a class="nav-link active" href="/dashboard">주문 현황</a></li>-->
+<!--                <li class="nav-item"><a class="nav-link active" href="/admin">계정 관리</a></li>-->
+<!--            </ul>-->
+
+<!--            <ul class="navbar-nav" id="authNav">-->
+<!--                <li class="nav-item" id="loginNav"><a class="nav-link" href="/login">로그인</a></li>-->
+<!--                <li class="nav-item" id="registerNav"><a class="nav-link" href="/register">회원가입</a></li>-->
+
+<!--                <li class="nav-item d-none" id="userNav"><span class="nav-link" id="username"></span></li>-->
+<!--                <li class="nav-item d-none" id="changePasswordNav"><a class="nav-link" href="/changepassword">비밀번호 변경</a></li>-->
+<!--                <li class="nav-item d-none" id="logoutNav"><a class="nav-link" href="#" id="logoutBtn">로그아웃</a></li>-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</nav>-->
+
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 <nav th:fragment="navbarFragment" class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <div class="container">
         <a class="navbar-brand" href="/">
             <i class="bi bi-cup-hot-fill"></i> The MSA Cafe
         </a>
+
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
-                <li class="nav-item"><a class="nav-link" href="/menus">메뉴 관리</a></li>
-                <li class="nav-item"><a class="nav-link" href="/orders">주문</a></li>
-                <li class="nav-item"><a class="nav-link" href="/list">게시판</a></li>
-                <li class="nav-item"><a class="nav-link" href="/stocks">재고</a></li>
-                <li class="nav-item"><a class="nav-link" href="/dashboard">주문 현황</a></li>
+                <li class="nav-item"><a class="nav-link" href="/menus" id="menuLink">메뉴 관리</a></li>
+                <li class="nav-item"><a class="nav-link" href="/orders" id="orderLink">주문</a></li>
+                <li class="nav-item"><a class="nav-link" href="/list" id="listLink">게시판</a></li>
+                <li class="nav-item"><a class="nav-link" href="/stocks" id="stockLink">재고</a></li>
+                <li class="nav-item"><a class="nav-link" href="/dashboard" id="dashLink">주문 현황</a></li>
+                <li class="nav-item"><a class="nav-link" href="admin" id="customerLink">고객 관리</a></li>
             </ul>
 
             <ul class="navbar-nav">
                 <li class="nav-item" id="loginNav"><a class="nav-link" href="/login">로그인</a></li>
                 <li class="nav-item" id="registerNav"><a class="nav-link" href="/register">회원가입</a></li>
 
-                <li class="nav-item d-none" id="userNav"><span class="nav-link" id="username"></span></li>
-                <li class="nav-item d-none" id="changePasswordNav"><a class="nav-link" href="/changepassword">비밀번호 변경</a></li>
+                <li class="nav-item d-none" id="userNav">
+                    <span class="nav-link fw-bold" id="usernameDisplay"></span>
+                </li>
                 <li class="nav-item d-none" id="logoutNav"><a class="nav-link" href="#" id="logoutBtn">로그아웃</a></li>
             </ul>
-
         </div>
     </div>
 </nav>
+
 </body>
 </html>
